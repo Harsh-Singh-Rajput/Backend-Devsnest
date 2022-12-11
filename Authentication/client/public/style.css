@@ -1,0 +1,77 @@
+body {
+    background-image: linear-gradient(pink, skyblue, grey);
+    background-repeat: no-repeat;
+    height: 100vh;
+    font-family: sans-serif;
+}
+
+h1 {
+    backdrop-filter: contrast(.7);
+    padding: .5em;
+    border-radius: .2em;
+    text-align: center;
+}
+
+h2{
+    padding-left: 1em;
+}
+
+#container {
+    display: flex;
+    justify-content: space-around;
+}
+
+p a{
+    text-decoration: none;
+    color: darkslategray;
+}
+p a:hover{
+    color: royalblue;
+}
+
+#container a {
+    border-radius: .2em;
+    text-decoration: none;
+    font-size: medium;
+    color: black;
+    text-align: center;
+    width: 5em;
+    height: auto;
+    border: 1px solid grey;
+    backdrop-filter: contrast(.7);
+}
+
+#container a:hover{
+    background-color: cornflowerblue;
+    color: white;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+}
+
+input:focus {
+    outline-color: green;
+}
+
+#form input {
+    padding: .3em;
+    border-radius: .3em;
+}
+
+#name, #email, #password, #signinPassword, #signinEmail{
+    margin-bottom: 1em;
+}
+
+
+button{
+    height: 2em;
+}
+button:hover{
+    cursor: pointer;
+    border-radius: .5em;
+    border: 2px solid green;
+    
+}
