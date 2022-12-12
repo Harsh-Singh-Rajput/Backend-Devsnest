@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById("email");
         const password = document.getElementById("password");
         const user = { email: email.value, password: password.value };
-        console.log(user);
+        // console.log(user);
         
         const res = await fetch("http://localhost:3000/api/v1/signin", {
         method: "POST",
