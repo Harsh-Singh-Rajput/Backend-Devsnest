@@ -9,11 +9,12 @@ const router = express.Router();
 createDB.sync().then(() => {
   console.log("DB is running");
 })
-let Users = {};
+// let Users = {};
 
-router.get('/',(req, res) => {
-  console.log(Users);
-  res.status(201).send("Server is running")
+router.get('/',async (req, res) => {
+  const Users = await User.findAll()
+  console.log(Users[0]);
+  res.send('Server is running')
 })
 
 router.post("/signup", async (req, res) => {
@@ -25,17 +26,16 @@ router.post("/signup", async (req, res) => {
       }
     }) 
     if (userExists) {
-      return
+      return res.status(403).send("User Exists");
     }
-    res.status(403).send("User Exists");
     if(!validateName(name)){
-        res.send('Invalid name')
-    }
+      return res.status(403).send('Invalid name: Error: Invalid user name: name must be longer than two characters and must not include any numbers or special characters')
+      }
     if(!validateEmail(email)){
-        res.send('Invalid email')
+      return res.status(403).send('Invalid email')
     }
     if(!validatePassword(password)){
-        res.send('Invalid password')
+      return res.status(403).send('Invalid password: Password must be at least 8 characters long and must include atlest one - one uppercase letter, one lowercase letter, one digit, one special character')
     }
 
     const hashPassowrd = await bcrypt.hash(password, 10)
@@ -43,7 +43,7 @@ router.post("/signup", async (req, res) => {
       name, email, password:hashPassowrd
     }
     const createdUser = await User.create(saveToDB);
-    console.log(Users);
+    console.log(createdUser);
     res.status(201).send(createdUser);
   } catch (error) {
     console.log(error);
@@ -61,17 +61,18 @@ router.post("/signin", async (req, res) => {
       }
     }) 
     if(!userExists){
-      res.send("User doesn't exists");
+      return res.send("User doesn't exists");
     }
-    console.log(userExists);
-    const passMatch = await bcrypt.compare(password, Users[email].password);
+    console.log(userExists.dataValues);
+    const getPassword = userExists.dataValues.password;
+    const passMatch = await bcrypt.compare(password, getPassword);
     console.log(passMatch);
     if(!passMatch){
-      res.send('Password mismatch');
-      return
+      return res.send('Password mismatch');
+      
     }
 
-    res.send('success');
+    return res.send('success');
 
   } catch (error) {
     console.log(error);
